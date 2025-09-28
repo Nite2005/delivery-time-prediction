@@ -3,7 +3,7 @@ name: CICD
 on: push
 
 jobs: 
-  model-deployment:
+  Run Pipeline:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,4 +32,5 @@ jobs:
         env:
           DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
+          dvc remote modify origin --local auth token $DAGSHUB_USER_TOKEN
           dvc repro
