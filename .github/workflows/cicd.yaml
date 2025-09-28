@@ -41,6 +41,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ap-south-1
         run: |
-          dvc remote modify origin --local token $DAGSHUB_USER_TOKEN
           dvc pull
           dvc repro
