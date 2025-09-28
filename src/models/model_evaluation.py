@@ -22,7 +22,9 @@ os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
 dagshub_url = "https://dagshub.com"
 repo_owner = "Nite2005"
 repo_name = "delivery-time-prediction"
-mlflow.set_tracking_uri("https://dagshub.com/Nite2005/delivery-time-prediction.mlflow")
+mlflow.set_tracking_uri(f"https://dagshub.com/{dagshub_username}/delivery-time-prediction.mlflow")
+
+# mlflow.set_tracking_uri("https://dagshub.com/Nite2005/delivery-time-prediction.mlflow")
 
 mlflow.set_experiment("DVC Pipeline")
 
