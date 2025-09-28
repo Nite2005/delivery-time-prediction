@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from mlflow import MlflowClient
 import logging
-
+import os 
 
 logger = logging.getLogger("register_model")
 logger.setLevel(logging.INFO)
@@ -22,8 +22,6 @@ formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(me
 handler.setFormatter(formatter)
 
 
-import dagshub
-import mlflow.client
 dagshub_username = "Nite2005"
 dagshub_token = os.getenv("DAGSHUB_TOKEN")
 if not dagshub_token:
