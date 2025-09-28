@@ -8,3 +8,8 @@ lightgbm
 joblib
 awscli
 dvc_s3
+fastapi
+pydantic
+python-jose
+redis
+pytest
