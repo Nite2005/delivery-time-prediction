@@ -9,7 +9,7 @@ from sklearn.metrics import mean_absolute_error, r2_score
 import json
 import os
 
-import dagshub
+
 dagshub_token = os.getenv("DAGSHUB_TOKEN")
 if not dagshub_token:
     raise EnvironmentError("DAGSHUB_TOKEN environment variable is not set")
@@ -19,7 +19,9 @@ os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
 # dagshub.init(repo_owner='Nite2005', repo_name='delivery-time-prediction', mlflow=True)
 
 # set the tracking server
-
+dagshub_url = "https://dagshub.com"
+repo_owner = "Nite2005"
+repo_name = "delivery-time-prediction"
 mlflow.set_tracking_uri("https://dagshub.com/Nite2005/delivery-time-prediction.mlflow")
 
 mlflow.set_experiment("DVC Pipeline")
