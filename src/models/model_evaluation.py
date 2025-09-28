@@ -7,10 +7,16 @@ from pathlib import Path
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import mean_absolute_error, r2_score
 import json
-
+import os
 
 import dagshub
-dagshub.init(repo_owner='Nite2005', repo_name='delivery-time-prediction', mlflow=True)
+dagshub_token = os.getenv("DAGSHUB_PAT")
+if not dagshub_token:
+    raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
+
+# os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+# os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+dagshub.init(repo_owner='Nite2005', repo_name='delivery-time-prediction', mlflow=True,token= dagshub_token)
 
 # set the tracking server
 
