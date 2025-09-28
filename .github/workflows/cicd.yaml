@@ -32,5 +32,4 @@ jobs:
         env:
           DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
-          dvc remote modify origin --local auth token $DAGSHUB_USER_TOKEN
-          dvc repro
+           dvc repro
