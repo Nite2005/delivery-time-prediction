@@ -68,11 +68,7 @@ jobs:
       #     DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
       #   run: |
       #     python scripts/promote_model_to_prod.py
-      
-      - name: Install docker-compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+
 
       - name: Log in to Docker HUB
         if: success()
@@ -84,12 +80,12 @@ jobs:
       - name: Build Docker Image
         if: success()
         run: |
-          docker-compose up --build -d
+          docker build -t delivery-time-prediction-api:latest
       
       - name: Push Docker image to DOCKER HUB
         if: success()
         run: |
-          docker push ${{secrets.DOCKER_HUB_USERNAME }}/delivery-time-prediction-api
+          docker push ${{secrets.DOCKER_HUB_USERNAME }}/delivery-time-prediction-api:latest
         
       
       
