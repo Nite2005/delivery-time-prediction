@@ -23,9 +23,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements-dev.txt
+      # - name: Install dependencies
+      #   run: |
+      #     pip install -r requirements-dev.txt
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -63,10 +63,10 @@ jobs:
       #   run: |
       #     python scripts/promote_model_to_prod.py
       
-      - name: Install Docker Compose
+      - name: Install docker-compose
         run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose-plugin
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
 
       - name: Log in to Docker HUB
         if: success()
@@ -78,7 +78,7 @@ jobs:
       - name: Build Docker Image
         if: success()
         run: |
-          docker-compose up --build
+          docker-compose up --build -d
       
       - name: Push Docker image to DOCKER HUB
         if: success()
