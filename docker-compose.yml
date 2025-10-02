@@ -15,7 +15,7 @@ services:
       - redis
       - prometheus
     volumes:
-      - C:/Users/hp/Desktop/delivery-time-prediction/sql_app.db:/app/db/sql_app.db
+      - C:/Users/hp/Desktop/delivery-time-prediction/sql_app.db:/app/db/sql_app.db:rw
     networks:
       - backend
 
