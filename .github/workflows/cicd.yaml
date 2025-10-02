@@ -80,7 +80,7 @@ jobs:
       - name: Build Docker Image
         if: success()
         run: |
-          docker build -t delivery-time-prediction-api:latest
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/delivery-time-prediction-api:latest .
       
       - name: Push Docker image to DOCKER HUB
         if: success()
