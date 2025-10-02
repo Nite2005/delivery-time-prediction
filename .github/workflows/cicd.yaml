@@ -62,6 +62,11 @@ jobs:
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
           python scripts/promote_model_to_prod.py
+      
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose-plugin
 
       - name: Log in to Docker HUB
         if: success()
