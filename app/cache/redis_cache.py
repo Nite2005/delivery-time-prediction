@@ -1,7 +1,7 @@
 import os
 import redis
 from dotenv import load_dotenv
-
+from  app.core.config import settings
 load_dotenv()
 
 REDIS_URL = os.getenv("REDIS_URL")
@@ -15,5 +15,5 @@ def get_cached_prediction(key: str):
     return eval(value) if value else None
 
 
-def set_cached_prediction(key: str, value: dict):
-    redis_client.set(key, str(value))
+def set_cached_prediction(key: str, value: dict, expire=settings.ACCESS_TOKEN_EXPIRE_MINUTES):
+    redis_client.set(key, str(value),ex=expire)

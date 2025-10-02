@@ -1,32 +1,32 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from app.core.dependencies import get_api_key, get_current_user
+from app.api.routes_auth import get_current_user
 from app.services.model_service import predict_delivery_time
-
+from sqlalchemy.orm import Session
+from app.db.session import get_db
+from app.db.models import User
+from app.services.model_service import predict_delivery_time
+from app.models.models import model_pipeline  # your ML pipeline
 
 router = APIRouter()
 
 
 class Data(BaseModel):  
-    ID: str
-    Delivery_person_ID: str
-    Delivery_person_Age: str
-    Delivery_person_Ratings: str
-    Restaurant_latitude: float
-    Restaurant_longitude: float
-    Delivery_location_latitude: float
-    Delivery_location_longitude: float
-    Order_Date: str
-    Time_Orderd: str
-    Time_Order_picked: str
-    Weatherconditions: str
-    Road_traffic_density: str
-    Vehicle_condition: int
-    Type_of_order: str
-    Type_of_vehicle: str
-    multiple_deliveries: str
-    Festival: str
-    City: str
+  age:float
+  ratings: float
+  weather: str
+  traffic: str
+  vehicle_condition: int
+  type_of_order: str
+  type_of_vehicle: str
+  multiple_deliveries: float
+  festival: str
+  city_type: str
+  is_weekend: int
+  pickup_time_minutes: int
+  order_time_of_day: str
+  distance: float
+  distance_type: str
 
 
 num_cols = ["age",
@@ -44,7 +44,21 @@ nominal_cat_cols = ['weather',
 
 ordinal_cat_cols = ["traffic","distance_type"]
 
-@router.post('/predict')
-def predict_price(data: Data, user=Depends(get_current_user),_=Depends(get_api_key)):
-    prediction = predict_delivery_time(data.model_dump())
-    return {'predicted_time':f'{prediction:,.2f}'}
+# @router.post('/predict')
+# def predict_price(data: Data, user=Depends(get_current_user),_=Depends(get_api_key)):
+#     prediction = predict_delivery_time(data.model_dump())
+#     return {'predicted_time':f'{prediction:,.2f}'}
+
+# @router.post("/predict")
+# def predict(data: Data, db: Session = Depends(get_db), users:str=None):
+#     prediction = predict_delivery_time(data, model_pipeline, db, users)
+#     return {"prediction": prediction}
+@router.post("/predict")
+def predict(data: Data, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """
+    - current_user automatically comes from JWT token
+    - prediction logs can use current_user.id
+    """
+    prediction = predict_delivery_time(data.model_dump(), db, user_id=current_user.id)
+    
+    return {"prediction": prediction}

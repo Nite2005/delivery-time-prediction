@@ -1,12 +1,23 @@
 import joblib
 import json 
+import os
 import mlflow
 import dagshub
 from sklearn.pipeline import Pipeline
-dagshub.init(repo_owner='Nite2005', repo_name='delivery-time-prediction')
+dagshub_username = "Nite2005"
+dagshub_token = os.getenv("DAGSHUB_TOKEN")
+if not dagshub_token:
+    raise EnvironmentError("DAGSHUB_TOKEN environment variable is not set")
 
-# set the mlflow tracking server
-mlflow.set_tracking_uri("https://dagshub.com/Nite2005/delivery-time-prediction.mlflow")
+os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_username
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+# dagshub.init(repo_owner='Nite2005', repo_name='delivery-time-prediction', mlflow=True)
+
+# set the tracking server
+dagshub_url = "https://dagshub.com"
+repo_owner = "Nite2005"
+repo_name = "delivery-time-prediction"
+mlflow.set_tracking_uri(f"https://dagshub.com/{dagshub_username}/delivery-time-prediction.mlflow")
 
 def load_model_information(file_path):
     with open(file_path,"r") as f:

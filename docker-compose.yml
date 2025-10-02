@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  api:
+    build: .
+    container_name: delivery-time-prediction-api
+    ports:
+      - "8000:8000"
+    environment:
+      -  DAGSHUB_TOKEN=f1d4f76a260cc3beae0200e7e642c9d7134873a8 
+      -  DAGSHUB_USERNAME=Nite2005
+      -  DATABASE_URL=sqlite:////app/db/sql_app.db
+      -  REDIS_URL=redis://host.docker.internal:6379/0
+    depends_on:
+      - redis
+      - prometheus
+    volumes:
+      - C:/Users/hp/Desktop/delivery-time-prediction/sql_app.db:/app/db/sql_app.db
+    networks:
+      - backend
+
+  redis:
+    image: redis:alpine
+    container_name: redis1
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+    
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus1
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - backend
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - backend
+
+
+networks:
+  backend:
+    driver: bridge

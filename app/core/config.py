@@ -17,4 +17,6 @@ class Settings:
     REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
     PREPROCESSOR_PATH =root_path / "models" / "preprocessor.joblib"
     RUN_INFORMATION_PATH = root_path / "run_information.json"
+    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///C:/Users/hp/Desktop/delivery-time-prediction/sql_app.db")
+    ACCESS_TOKEN_EXPIRE_MINUTES = 60
 settings = Settings()
